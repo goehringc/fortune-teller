@@ -8,16 +8,16 @@ CF_API=`cf api | head -1 | cut -c 25-`
 
 if [[ $CF_API == *"api.run.pivotal.io"* ]]; then
     cf create-service cleardb spark fortunes-db
-    cf create-service p-config-server trial fortunes-config-server -c '{"git": { "uri": "https://github.com/ciberkleid/fortune-teller", "searchPaths": "configuration" } }'
+    cf create-service p-config-server trial fortunes-config-server -c '{"git": { "uri": "https://github.com/goehringc/fortune-teller", "searchPaths": "configuration" } }'
     cf create-service p-service-registry trial fortunes-service-registry
     cf create-service cloudamqp lemur fortunes-cloud-bus
 else
     if [ ! -z "`cf m | grep "p\.config-server"`" ]; then
       export service_name="p.config-server"
-      export config_json="{\"git\": { \"uri\": \"https://github.com/ciberkleid/fortune-teller\", \"searchPaths\": \"configuration\" } }"
+      export config_json="{\"git\": { \"uri\": \"https://github.com/goehringc/fortune-teller\", \"searchPaths\": \"configuration\" } }"
     elif [ ! -z "`cf m | grep "p-config-server"`" ]; then
       export service_name="p-config-server"
-      export config_json="{\"skipSslValidation\": true, \"git\": { \"uri\": \"https://github.com/ciberkleid/fortune-teller\", \"searchPaths\": \"configuration\" } }"
+      export config_json="{\"skipSslValidation\": true, \"git\": { \"uri\": \"https://github.com/goehringc/fortune-teller\", \"searchPaths\": \"configuration\" } }"
     else
       echo "Can't find SCS Config Server in marketplace. Have you installed the SCS Tile?"
       exit 1;
